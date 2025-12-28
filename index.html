@@ -1,30 +1,47 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Испытай удачу</title>
+  <title>MineSlot - Твой Путь к Победе</title>
 
-  <!-- Предзагрузка -->
-  <link rel="preload" href="fonts/BenzinBold.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- Google Fonts: VT323 for Pixel look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
   <link rel="preload" href="video/promo.mp4" as="video" type="video/mp4">
-  <link rel="preload" href="images/preview.png" as="image">
+  <link rel="preload" href="image/hero.jpg" as="image">
 
   <style>
-    @font-face {
-      font-family: "BenzinBold";
-      src: url("fonts/BenzinBold.woff2") format("woff2");
-      font-weight: 700;
-      font-style: normal;
-      font-display: swap;
+    :root {
+      --mc-green: #59b200;
+      --mc-green-light: #76e300;
+      --mc-green-dark: #376e00;
+      --mc-gold: #ffd700;
+      --mc-gold-light: #fff0a5;
+      --mc-diamond: #42e3f5;
+      --mc-bg: #1a1a1a;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
-      background: radial-gradient(circle at 30% 20%, #23254d 0%, #0e1124 60%);
+      background-color: #2e2e2e;
+      background-image:
+        linear-gradient(45deg, #1a1a1a 25%, transparent 25%),
+        linear-gradient(-45deg, #1a1a1a 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #1a1a1a 75%),
+        linear-gradient(-45deg, transparent 75%, #1a1a1a 75%);
+      background-size: 20px 20px;
+
       color: #fff;
-      font-family: "Inter", sans-serif;
+      font-family: "VT323", monospace;
       text-align: center;
       overflow-x: hidden;
       min-height: 100vh;
@@ -32,19 +49,59 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      padding: 20px;
+      padding: 10px;
     }
 
-    /* Прелоадер */
+    /* Ambient particles background */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: var(--mc-green);
+      opacity: 0.3;
+      animation: float-up 10s infinite linear;
+    }
+
+    @keyframes float-up {
+      0% {
+        transform: translateY(110vh) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.3;
+      }
+
+      90% {
+        opacity: 0.3;
+      }
+
+      100% {
+        transform: translateY(-10vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Preloader */
     #preloader {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at 30% 20%, #23254d 0%, #0e1124 70%);
+      background: #121212;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      z-index: 100;
+      z-index: 1000;
       transition: opacity 0.6s ease, visibility 0.6s ease;
     }
 
@@ -53,127 +110,195 @@
       visibility: hidden;
     }
 
-    .plane {
-      width: 100px;
-      height: 100px;
-      background: url("images/preview.png") no-repeat center / contain;
-      animation: fly 2.5s ease-in-out infinite;
+    .loader-cube {
+      width: 40px;
+      height: 40px;
+      background: var(--mc-green);
+      border: 4px solid #000;
+      animation: jump 0.6s infinite alternate;
+      box-shadow: inset -4px -4px 0 rgba(0, 0, 0, 0.3);
     }
 
-    @keyframes fly {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      50% { transform: translateY(-10px) rotate(2deg); opacity: 0.9; }
-      100% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    }
+    @keyframes jump {
+      from {
+        transform: translateY(0) scaleX(1.1);
+      }
 
-    .loading-text {
-      font-family: "BenzinBold", sans-serif;
-      font-size: 22px;
-      margin-top: 20px;
-      background: linear-gradient(135deg, #ffe176, #ff5858);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0%,100% {opacity: 1;}
-      50% {opacity: 0.5;}
+      to {
+        transform: translateY(-30px) scaleX(0.9);
+      }
     }
 
     .container {
       width: 100%;
-      max-width: 480px;
+      max-width: 360px;
+      /* narrowed per request */
+      z-index: 10;
       display: none;
+      animation: slide-up 0.8s ease-out forwards;
     }
 
     .container.visible {
       display: block;
     }
 
+    @keyframes slide-up {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 60px;
+      color: #fff;
+      text-shadow:
+        4px 4px 0 #3f3f3f,
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        4px 4px 0 #000;
+      margin-bottom: 20px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
     .video-section {
+      width: 100%;
+      max-width: 300px;
+      /* shrink visuals */
+      margin: 0 auto 30px;
+      border: 6px solid #5a5a5a;
+      background: #000;
       position: relative;
-      border-radius: 20px;
+      box-shadow: 0 12px 0 #121212;
+      border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(15px);
     }
 
     video {
       width: 100%;
       height: auto;
-      border-radius: 20px;
       display: block;
-      object-fit: cover;
-      background-color: #000;
+      transition: transform 0.5s ease;
     }
 
-    .play-button {
-      margin-top: 25px;
-      background: linear-gradient(135deg, #ff7b00, #ff2d55);
-      color: white;
-      font-family: "BenzinBold", "Inter", sans-serif;
-      font-size: clamp(16px, 5vw, 20px);
-      padding: 16px 40px;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 6px 18px rgba(255, 90, 0, 0.5);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      animation: pulse 2s infinite;
-      width: 100%;
-      max-width: 320px;
-    }
-
-    .play-button:hover {
+    .video-section:hover video {
       transform: scale(1.05);
-      box-shadow: 0 12px 25px rgba(255, 125, 0, 0.6);
     }
 
-    h2 {
-      font-family: "BenzinBold", "Inter", sans-serif;
-      font-size: clamp(22px, 5vw, 28px);
-      margin-top: 45px;
-      background: linear-gradient(135deg, #ffe176, #ff5858);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 1px;
+    .call-to-action {
+      font-size: 28px;
+      color: var(--mc-gold);
+      text-shadow: 2px 2px 0 #000;
+      margin-bottom: 10px;
+      animation: blink 1.2s infinite;
+      text-transform: uppercase;
     }
 
-    .tg-button {
-      margin-top: 20px;
-      display: inline-block;
-      padding: 14px 30px;
-      font-family: "BenzinBold", "Inter", sans-serif;
-      background: linear-gradient(135deg, #00b7ff, #007fff);
-      color: #fff;
-      border-radius: 50px;
-      text-decoration: none;
-      font-size: clamp(16px, 4.5vw, 18px);
-      box-shadow: 0 6px 18px rgba(0, 183, 255, 0.4);
-      transition: all 0.3s ease;
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.7;
+        transform: scale(1.05);
+      }
+    }
+
+    .instruction-arrow {
+      font-size: 32px;
+      margin-bottom: 5px;
+      animation: bounce-arrow 1s infinite;
+    }
+
+    @keyframes bounce-arrow {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(10px);
+      }
+    }
+
+    .mine-btn {
+      display: block;
       width: 100%;
-      max-width: 300px;
+      padding: 16px 10px;
+      font-family: inherit;
+      font-size: 30px;
+      color: #fff;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 4px solid #000;
+      cursor: pointer;
+      background-color: var(--mc-green);
+      box-shadow:
+        inset 4px 4px 0 rgba(255, 255, 255, 0.4),
+        inset -4px -4px 0 rgba(0, 0, 0, 0.4),
+        0 8px 0 var(--mc-green-dark);
+      transition: all 0.1s;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+      margin-bottom: 25px;
+      position: relative;
     }
 
-    .tg-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 35px rgba(0, 183, 255, 0.6);
+    .mine-btn:hover {
+      background-color: var(--mc-green-light);
+      transform: translateY(-2px);
+      box-shadow:
+        inset 4px 4px 0 rgba(255, 255, 255, 0.4),
+        inset -4px -4px 0 rgba(0, 0, 0, 0.4),
+        0 10px 0 var(--mc-green-dark);
+    }
+
+    .mine-btn:active {
+      transform: translateY(8px);
+      box-shadow: 0 0 0 transparent;
+    }
+
+    .mine-btn.secondary {
+      background-color: #0088cc;
+      /* Telegram brand blue */
+      font-size: 24px;
+      box-shadow:
+        inset 4px 4px 0 rgba(255, 255, 255, 0.4),
+        inset -4px -4px 0 rgba(0, 0, 0, 0.4),
+        0 8px 0 #006699;
+    }
+
+    .start-text {
+      font-size: 20px;
+      color: #aaa;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     /* Popup */
     .popup {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.85);
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
       display: flex;
       align-items: center;
       justify-content: center;
       visibility: hidden;
       opacity: 0;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
-      z-index: 10;
+      transition: all 0.4s ease;
+      z-index: 2000;
       padding: 20px;
     }
 
@@ -183,103 +308,127 @@
     }
 
     .popup-content {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 20px;
-      padding: 35px 20px;
-      text-align: center;
-      width: 100%;
+      background: #aaaaaa;
+      border: 6px solid #000;
+      padding: 30px 15px;
       max-width: 320px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(18px);
-      animation: scaleIn 0.4s ease forwards;
+      width: 100%;
+      box-shadow: 0 20px 0 #000;
+      position: relative;
     }
 
-    @keyframes scaleIn {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+    .popup-content::after {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border: 2px solid #fff;
+      pointer-events: none;
     }
 
     .popup h3 {
-      font-family: "BenzinBold", "Inter", sans-serif;
-      font-size: clamp(18px, 5vw, 22px);
-      margin-bottom: 10px;
-      background: linear-gradient(135deg, #ffe176, #ff5858);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-size: 48px;
+      color: #ffaa00;
+      text-shadow: 3px 3px 0 #000;
+      margin-bottom: 15px;
+      text-transform: uppercase;
     }
 
     .popup p {
-      font-size: clamp(14px, 4vw, 16px);
-      color: #ddd;
+      font-size: 22px;
+      color: #333;
       margin-bottom: 25px;
-    }
-
-    .popup .tg-button {
-      font-size: clamp(14px, 4.5vw, 17px);
-      padding: 12px 26px;
+      font-weight: bold;
+      line-height: 1.2;
     }
   </style>
 </head>
+
 <body>
-  <!-- Прелоадер -->
+
+  <!-- Background Particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Preloader -->
   <div id="preloader">
-    <div class="plane"></div>
-    <div class="loading-text">Загрузка Aviamasters...</div>
+    <div class="loader-cube"></div>
+    <div style="margin-top: 15px; font-size: 24px; color: var(--mc-gold);">LOADING...</div>
   </div>
 
   <div class="container" id="mainContent">
+    <h1>MINESLOT</h1>
+
     <div class="video-section">
-      <video id="promoVideo" preload="auto" poster="image/preview.png" playsinline>
+      <video id="promoVideo" preload="auto" poster="image/hero.jpg" playsinline>
         <source src="video/promo.mp4" type="video/mp4">
-        Ваш браузер не поддерживает видео.
       </video>
     </div>
 
-    <button class="play-button" id="playBtn">ИСПЫТАТЬ УДАЧУ</button>
+    <!-- Instruction Text -->
+    <div class="call-to-action">КЛИКАЙ ПО КНОПКЕ!</div>
+    <div class="instruction-arrow">👇</div>
 
-    <h2>НАЧНИ ИГРАТЬ</h2>
-    <a href="https://t.me/+XAMTpt_cc3U4ZTMy" target="_blank" class="tg-button">Перейти в Telegram</a>
+    <!-- Main Play Button -->
+    <button class="mine-btn" id="playBtn">ИСПЫТАТЬ УДАЧУ</button>
+
+    <a href="https://t.me/+GMrSPcO5MAJkYzAy" target="_blank" class="mine-btn secondary">ПЕРЕЙТИ В TELEGRAM ⛏️</a>
   </div>
 
+  <!-- Popup -->
   <div class="popup" id="popup">
     <div class="popup-content">
-      <h3>💰 Вы могли выиграть 241 250 ₽!</h3>
-      <p>Попробуй прямо сейчас — удача может быть на твоей стороне.</p>
-      <a href="https://t.me/+XAMTpt_cc3U4ZTMy" target="_blank" class="tg-button">Испытать удачу</a>
+      <h3>ПОБЕДА!</h3>
+      <p>Твой выигрыш: 36 861 ₽<br>Забери его в Telegram!</p>
+      <a href="https://t.me/+GMrSPcO5MAJkYzAy" target="_blank" class="mine-btn secondary">ЗАБРАТЬ ДЕНЬГИ ⛏️</a>
     </div>
   </div>
 
   <script>
+    // Create Particles
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 15; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDelay = Math.random() * 10 + 's';
+      p.style.backgroundColor = i % 2 === 0 ? '#59b200' : '#ffd700'; // Multi-color particles
+      particlesContainer.appendChild(p);
+    }
+
     const video = document.getElementById('promoVideo');
     const playBtn = document.getElementById('playBtn');
     const popup = document.getElementById('popup');
     const preloader = document.getElementById('preloader');
     const mainContent = document.getElementById('mainContent');
 
-    // Ждём полной загрузки контента
     window.addEventListener('load', () => {
-      // Даем браузеру чуть прогрузить видео и шрифт
       setTimeout(() => {
         preloader.classList.add('hidden');
         mainContent.classList.add('visible');
-        // Принудительно загружаем превью, если видео не сразу доступно
         video.load();
-      }, 500);
+      }, 700);
     });
 
-    // Кнопка "Испытать удачу"
     playBtn.addEventListener('click', () => {
-      if (navigator.vibrate) navigator.vibrate(100);
+      if (navigator.vibrate) navigator.vibrate(50);
       playBtn.style.display = 'none';
+      // Hide the instruction text when video starts
+      document.querySelector('.call-to-action').style.display = 'none';
+      document.querySelector('.instruction-arrow').style.display = 'none';
+
       video.muted = false;
-      video.play().catch(() => {
-        // если браузер блокирует автоплей — разрешим со звуком вручную
-        video.muted = true;
-        video.play();
-      });
-      setTimeout(() => popup.classList.add('active'), 13000);
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          video.muted = true;
+          video.play();
+        });
+      }
+    });
+
+    video.addEventListener('ended', () => {
+      popup.classList.add('active');
     });
   </script>
 </body>
+
 </html>
